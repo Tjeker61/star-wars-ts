@@ -1,3 +1,5 @@
+import type {Hero} from "./type";
+
 export const navItems = ['Home', 'About me', 'Star Wars', 'Contact'];
 
 import friend1 from '../images/friend1.jpg'
@@ -9,6 +11,7 @@ import friend6 from '../images/friend6.jpg'
 import friend7 from '../images/friend7.jpg'
 import friend8 from '../images/friend8.jpg'
 import friend9 from '../images/friend9.jpg'
+import friend0 from '../images/main.jpg'
 
 export const friends = [friend1, friend2, friend3, friend4, friend5, friend6, friend7, friend8, friend9];
 
@@ -40,4 +43,60 @@ export const openingCrawl = "It is a period of civil war.\n" +
     "            people and restore\n" +
     "            freedom to the galaxy...."
 
-export const BASE_URL = 'https://sw-info-api.herokuapp.com'
+
+export const BASE_URL = 'https://sw-info-api.herokuapp.com';
+export const version = '/v1';
+export const characters: Record<string, Hero> = {
+    luke: {
+        name: "Luke Skywalker",
+        img: friend0,
+        url: `${BASE_URL+version}/peoples/1`
+    },
+    c3po:{
+        name: "C-3PO",
+        img: friend2,
+        url: `${BASE_URL+version}/peoples/2`
+    },
+    r2d2:{
+        name: "R2-D2",
+        img: friend1,
+        url: `${BASE_URL+version}/peoples/3`
+    },
+    leia:{
+        name: "Leia Organa",
+        img: friend9,
+        url: `${BASE_URL+version}/peoples/5`
+    },
+    obi_wan:{
+        name: "Obi-Wan Kenobi",
+        img: friend8,
+        url: `${BASE_URL+version}/peoples/10`
+    },
+    chewbacca:{
+        name: "Chewbacca",
+        img: friend4,
+        url: `${BASE_URL+version}/peoples/13`
+    },
+    han_solo:{
+        name: "Han Solo",
+        img: friend5,
+        url: `${BASE_URL+version}/peoples/14`
+    },
+    yoda:{
+        name: "Yoda",
+        img: friend6,
+        url: `${BASE_URL+version}/peoples/0`
+    },
+    ewok:{
+        name: "Wicket Systri Warrick",
+        img: friend3,
+        url: `${BASE_URL+version}/peoples/30`
+    },
+    falcon:{
+        name: "Millennium Falcon",
+        img: friend7,
+        url: `${BASE_URL+version}/transports/10`
+    }
+};
+
+export const defaultHero = 'luke';

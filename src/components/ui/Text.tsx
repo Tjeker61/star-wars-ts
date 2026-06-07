@@ -1,10 +1,11 @@
 interface TextProps {
     children: string
+    className?: string
 }
 
-const Text = ({children}: TextProps) => {
+const Text = ({children, className}: TextProps) => {
     return (
-        <div className={"text-justify tracking-widest text-3xl leading-normal"}>
+        <div className={`text-justify tracking-widest text-3xl leading-normal ${className}`}>
             {children}
         </div>
     );

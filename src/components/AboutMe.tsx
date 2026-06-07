@@ -1,6 +1,9 @@
-import {useEffect, useState} from "react";
-import {BASE_URL} from "../utils/constants.ts";
-import main from "../images/main.jpg";
+import {useContext, useEffect, useState} from "react";
+import {characters, defaultHero} from "../utils/constants.ts";
+import {useParams} from "react-router";
+import ErrorPage from "./ErrorPage.tsx";
+import Text from "./ui/Text.tsx";
+import {SWContext} from "../utils/context.ts";
 
 interface heroInfo {
     Name?: string;
@@ -12,16 +15,20 @@ interface heroInfo {
 }
 
 const AboutMe = () => {
+    const {changeHero} = useContext(SWContext)
+    const {heroId = defaultHero} = useParams();
     const [heroInfo, setHeroInfo] = useState<heroInfo>(() => {
-        const hero = JSON.parse(localStorage.getItem("hero")!);
+        const hero = JSON.parse(localStorage.getItem(heroId)!);
         if (hero && Date.now() - hero.timestamp < 1000 * 60 * 60 * 24 * 30) {
             return hero.payload;
         }
     })
 
     useEffect(() => {
+        if (!(heroId in characters)) return;
+        changeHero(heroId);
         if (!heroInfo) {
-            fetch(`${BASE_URL}/v1/peoples/1`)
+            fetch(characters[heroId as keyof typeof characters].url)
                 .then(res => res.json())
                 .then(data => {
                     const info = {
@@ -32,7 +39,7 @@ const AboutMe = () => {
                         'Birth Year': data.birth_year
                     }
                     setHeroInfo(info)
-                    localStorage.setItem('hero', JSON.stringify(
+                    localStorage.setItem(heroId, JSON.stringify(
                         {
                             payload: info,
                             timestamp: Date.now(),
@@ -43,10 +50,12 @@ const AboutMe = () => {
         }
     }, []);
 
+    if (!(heroId in characters)) return (<ErrorPage />)
+
     if (heroInfo) {
     return (
         <div>
-            <img className="w-1/5 shadow-hero float-start m-4" src={main} alt="Luke Skywalker"/>
+            <img className="w-1/5 shadow-hero float-start m-4" src={characters[heroId as keyof typeof characters].img} alt={heroId}/>
         <p className="text-justify tracking-widest text-3xl leading-normal">
             {Object.entries(heroInfo).map(([key, value]) => <span key={key}>{key}: {value}<br/></span>)}
         </p>
@@ -54,9 +63,9 @@ const AboutMe = () => {
     );
     } else {
         return (
-            <p className="text-justify tracking-widest text-3xl leading-normal">
+            <Text>
                 Loading...
-            </p>
+            </Text>
         )
     }
 };
