@@ -13,6 +13,7 @@ const Main = () => {
     return (
         <Routes>
             {[`/`, `/${navItems[0]}`].map(p => <Route path={p} element={<Home />} />)}
+            <Route path={`/${navItems[0]}/:heroId`} element={<Home/>} />
             {/*<Route path={`/`} element={<Home />} />*/}
             {/*<Route path={`/${navItems[0]}`} element={<Home />} />*/}
             {[`/${navItems[1]}`, `/${navItems[1]}/:heroId`].map(p => <Route path={p} element={<AboutMe />} />)}
