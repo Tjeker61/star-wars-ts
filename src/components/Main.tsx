@@ -18,8 +18,10 @@ const Main = () => {
             {/*<Route path={`/${navItems[0]}`} element={<Home />} />*/}
             {[`/${navItems[1]}`, `/${navItems[1]}/:heroId`].map(p => <Route path={p} element={<AboutMe />} />)}
             {/*<Route path={`/${navItems[1]}/:heroId`} element={<AboutMe />} />*/}
-            <Route path={`/${navItems[2]}`} element={<StarWars />} />
-            <Route path={`/${navItems[3]}`} element={<Contact />} />
+            {[`/${navItems[2]}`, `/${navItems[2]}/:heroId`].map(p => <Route path={p} element={<StarWars />} />)}
+            {/*<Route path={`/${navItems[2]}`} element={<StarWars />} />*/}
+            {[`/${navItems[3]}`, `/${navItems[3]}/:heroId`].map(p => <Route path={p} element={<Contact />} />)}
+            {/*<Route path={`/${navItems[3]}`} element={<Contact />} />*/}
             <Route path={'*'} element={<ErrorPage />} />
         </Routes>
     )

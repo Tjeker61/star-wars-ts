@@ -1,5 +1,7 @@
 import {useEffect, useState} from "react";
 import {BASE_URL} from "../utils/constants.ts";
+import {useValidHero} from "./hooks/customHooks.ts";
+import ErrorPage from "./ErrorPage.tsx";
 
 const Contact = () => {
     const [planetsList, setPlanetsList] = useState<string[]>(() => {
@@ -8,6 +10,8 @@ const Contact = () => {
             return planets.payload;
         }
     })
+
+    const {isHeroValid} = useValidHero()
 
     useEffect(() => {
         if (!planetsList) {
@@ -25,6 +29,8 @@ const Contact = () => {
                 })
         }
     }, []);
+
+    if (!isHeroValid) return <ErrorPage />
 
     if (planetsList) {
         return (

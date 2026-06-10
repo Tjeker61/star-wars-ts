@@ -1,9 +1,8 @@
-import {useContext, useEffect, useState} from "react";
-import {characters, defaultHero} from "../utils/constants.ts";
-import {useParams} from "react-router";
+import {useEffect, useState} from "react";
+import {characters} from "../utils/constants.ts";
 import ErrorPage from "./ErrorPage.tsx";
 import Text from "./ui/Text.tsx";
-import {SWContext} from "../utils/context.ts";
+import {useValidHero} from "./hooks/customHooks.ts";
 
 interface heroInfo {
     Name?: string;
@@ -15,8 +14,8 @@ interface heroInfo {
 }
 
 const AboutMe = () => {
-    const {changeHero} = useContext(SWContext)
-    const {heroId = defaultHero} = useParams();
+    const {isHeroValid, heroId} = useValidHero()
+    
     const [heroInfo, setHeroInfo] = useState<heroInfo>(() => {
         const hero = JSON.parse(localStorage.getItem(heroId)!);
         if (hero && Date.now() - hero.timestamp < 1000 * 60 * 60 * 24 * 30) {
@@ -24,9 +23,11 @@ const AboutMe = () => {
         }
     })
 
+    
+
     useEffect(() => {
-        if (!(heroId in characters)) return;
-        changeHero(heroId);
+        if (!isHeroValid) return;
+        
         if (!heroInfo) {
             fetch(characters[heroId as keyof typeof characters].url)
                 .then(res => res.json())
@@ -48,9 +49,9 @@ const AboutMe = () => {
                 })
                 .catch(() => setHeroInfo({Error: 'Data loading error'}))
         }
-    }, []);
+    }, [heroId, heroInfo, isHeroValid]);
 
-    if (!(heroId in characters)) return (<ErrorPage />)
+    if (!isHeroValid) return (<ErrorPage />)
 
     if (heroInfo) {
     return (
