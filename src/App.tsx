@@ -7,10 +7,11 @@ import {SWContext} from "./utils/context.ts";
 
 function App() {
     const [hero, setHero] = useState(defaultHero)
+    const [isErrorPage, setIsErrorPage] = useState(false)
 
   return (
       <div className={'mx-2'}>
-          <SWContext value={{hero, changeHero: setHero}}>
+          <SWContext value={{hero, changeHero: setHero, isErrorPage, setIsErrorPage}}>
           <Header/>
           <Main/>
           <Footer />
